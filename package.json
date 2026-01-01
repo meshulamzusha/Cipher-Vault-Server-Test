@@ -1,0 +1,30 @@
+{
+  "name": "cipher-vault-server-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon --env-file=.env src/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/meshulamzusha/Cipher-Vault-Server-Test.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/meshulamzusha/Cipher-Vault-Server-Test/issues"
+  },
+  "homepage": "https://github.com/meshulamzusha/Cipher-Vault-Server-Test#readme",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.89.0",
+    "express": "^5.2.1",
+    "mongodb": "^7.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}
