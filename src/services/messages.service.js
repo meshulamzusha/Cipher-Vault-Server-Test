@@ -46,15 +46,16 @@ async function decryptService(messageId) {
         const { data, error } = await supabase
             .from('messages')
             .select()
-            .eq(id, messageId)
+            .eq('id', messageId)
             .single()
 
         if (error) {
+            console.log(error);
             throw new Error("Failed to retrieve information from the database.");
         }
 
         if (data) {
-            if (data.cipherType.toUpperCase() == 'RANDOM_SHUFFLE') {
+            if (data.cipher_type.toUpperCase() == 'RANDOM_SHUFFLE') {
                 return {
                     id: data.id,
                     decryptedText: null,
