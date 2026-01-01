@@ -7,11 +7,16 @@ import controller from '../controllers/messages.controller.js';
 const router = express.Router();
 
 router.use(
-    validator.validateUserFields, 
-    validator.validateEncryptBody, 
+    validator.validateUserFields,
     auth.authenticateUser
 );
 
-router.post('/encrypt', controller.decryptHandler);
+
+router.post('/encrypt', 
+    validator.validateEncryptBody, 
+    controller.encryptHandler
+);
+
+router.post('/decrypt', controller.decryptHandler)
 
 export default router

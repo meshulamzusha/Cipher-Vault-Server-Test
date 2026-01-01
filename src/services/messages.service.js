@@ -1,7 +1,7 @@
 import { getSupabaseClient } from "../db/supabase.js";
 import { connectMongoDBUsersCollection } from "../db/mongo.js";
 import { createMessage } from "../models/message.model.js";
-import { encrypt } from "../utils/security.js"
+import { encrypt, decrypt } from "../utils/security.js"
 
 const supabase = getSupabaseClient();
 const collection = await connectMongoDBUsersCollection()
@@ -16,7 +16,7 @@ async function encryptService(username, cipherType, text) {
             .insert(message)
             .select()
             .single()
-        
+
         if (error) {
             throw error
         }
@@ -40,6 +40,41 @@ async function encryptService(username, cipherType, text) {
     }
 }
 
+
+async function decryptService(messageId) {
+    try {
+        const { data, error } = await supabase
+            .from('messages')
+            .select()
+            .eq(id, messageId)
+            .single()
+
+        if (error) {
+            throw new Error("Failed to retrieve information from the database.");
+        }
+
+        if (data) {
+            if (data.cipherType.toUpperCase() == 'RANDOM_SHUFFLE') {
+                return {
+                    id: data.id,
+                    decryptedText: null,
+                    error: "CANNOT_DECRYPT"
+                }
+            }
+
+            const decrypted = decrypt(data.cipher_type, data.encrypted_text)
+
+            return {
+                id: data.id,
+                decryptedText: decrypted
+            }
+        }
+    } catch (error) {
+        throw error;
+    }
+}
+
 export default {
-    encryptService
+    encryptService,
+    decryptService
 }
